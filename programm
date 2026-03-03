@@ -1,0 +1,39 @@
+"""
+Concept
+
+Group streaming platform users based on watch time, subscription age, number of devices.
+
+Goal: Identify high-value vs low-activity users for targeted campaigns.
+"""
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+
+# 🌟 Step 1: Simulate OTT customer data
+# Columns: [Avg Watch Time (hrs/week), Subscription Age (months), Devices Used]
+X = np.array([
+    [5, 2, 1], [7, 3, 1], [50, 24, 3], [45, 20, 2], 
+    [2, 1, 1], [3, 2, 1], [55, 30, 3], [48, 25, 2],
+    [6, 2, 1], [52, 28, 3], [4, 1, 1], [47, 22, 2]
+])
+
+# Step 2: Apply K-Means (3 clusters)
+kmeans = KMeans(n_clusters=3, random_state=42)
+labels = kmeans.fit_predict(X)
+centroids = kmeans.cluster_centers_
+
+# Step 3: Visualize in 2D (Watch Time vs Subscription Age)
+plt.scatter(X[:, 0], X[:, 1], c=labels, cmap='viridis', s=100, edgecolor='k')
+plt.scatter(centroids[:, 0], centroids[:, 1], color='red', marker='X', s=200, label='Centroids')
+plt.xlabel("Avg Watch Time (hrs/week)")
+plt.ylabel("Subscription Age (months)")
+plt.title("📺 OTT Customer Segmentation")
+plt.legend()
+plt.show()
+
+
+print("""Users naturally group into low, medium, and high engagement clusters
+
+Red X → cluster centroids
+
+Can help OTT platform personalize recommendations or target campaigns""")
